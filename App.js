@@ -2,16 +2,17 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import Slider from '@react-native-community/slider';
 
-const App = () => {
-    const [slider2Value, setSlider2Value] = useState(0);
+export default function App() {
+    const [sliderValue, setSliderValue] = useState(0);
+    const [slider4Klaar, setSlider4Klaar] = useState(false);
 
-    const handleSlider2Change = (value) => {
-        setSlider2Value(value);
+    const onSlider4Complete = () => {
+        setSlider4Klaar(true);
     }
 
     return (
         <View style={styles.container}>
-            <Text style={styles.sliderText}>Slider 1</Text>
+            <Text style={styles.sliderText}>Basic slider</Text>
             <Slider
                 style={styles.slider1}
                 minimumValue={0}
@@ -19,17 +20,19 @@ const App = () => {
                 minimumTrackTintColor="#000000"
                 maximumTrackTintColor="#000000"
             />
-            <Text style={styles.sliderText}>Slider 2</Text>
-            <Text style={styles.sliderValue}>{slider2Value.toFixed(2)}</Text>
+
+            <Text style={styles.sliderText}>Slider en haar waarde</Text>
+            <Text style={styles.sliderValueText}>{sliderValue.toFixed(2)}</Text>
             <Slider
                 style={styles.slider2}
                 minimumValue={0}
-                maximumValue={10}
+                maximumValue={1}
                 minimumTrackTintColor="#00FF00"
                 maximumTrackTintColor="#000000"
-                onValueChange={handleSlider2Change}
+                onValueChange={(value) => setSliderValue(value)}
             />
-            <Text style={styles.sliderText}>Slider 3</Text>
+
+            <Text style={styles.sliderText}>Inverted slider</Text>
             <Slider
                 style={styles.slider3}
                 minimumValue={-50}
@@ -38,9 +41,24 @@ const App = () => {
                 maximumTrackTintColor="#000000"
                 inverted={true}
             />
+
+            <Text style={styles.sliderText}>Een malige slider</Text>
+            {slider4Klaar ? (
+                <Text style={styles.completedText}>Goed gedaan!</Text>
+            ) : (
+                <Slider
+                    style={styles.slider4}
+                    minimumValue={0}
+                    maximumValue={1}
+                    minimumTrackTintColor="#FF0000"
+                    maximumTrackTintColor="#000000"
+                    onSlidingComplete={() => onSlider4Complete()}
+                />
+            )}
+
         </View>
     );
-};
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -54,9 +72,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 10,
     },
-    sliderValue: {
+    sliderValueText: {
         fontSize: 16,
-        fontWeight: 'bold',
+        marginBottom: 10,
+    },
+    completedText: {
+        fontSize: 16,
+        color: '#00FF00',
         marginBottom: 10,
     },
     slider1: {
@@ -74,6 +96,9 @@ const styles = StyleSheet.create({
         height: 40,
         marginBottom: 10,
     },
+    slider4: {
+        width: 200,
+        height: 40,
+        marginBottom: 10,
+    },
 });
-
-export default App;
